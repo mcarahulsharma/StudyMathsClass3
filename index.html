@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#7357ff">
 <meta name="description" content="Division Quest - Grade 3 division learning">
-<title>Division Quest</title>
+<title>Yuvan’s Division Quest</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--purple:#7357ff;--yellow:#ffd95a;--green:#28c98b;--blue:#53b7ff;--ink:#29324d;--muted:#74809a;--bg:#f5f5ff;--card:#fff;--soft:#f1efff}
@@ -53,17 +53,17 @@ button{font:inherit;border:0;cursor:pointer}
 </head>
 <body>
 <div class="app">
-<header class="top"><div class="logo">🚀 Division Quest</div><div class="actions"><button class="theme" id="themeButton" type="button">🌙</button><div class="score">⭐ <span id="stars">0</span></div></div></header>
+<header class="top"><div class="logo">🚀 Yuvan’s Division Quest</div><div class="actions"><button class="theme" id="themeButton" type="button">🌙</button><div class="score">⭐ <span id="stars">0</span></div></div></header>
 
 <section id="home" class="screen active">
-<div class="hero"><div class="mascot">🦊</div><h1>Let's learn division!</h1><p>Learn the school method, see every step, then practise.</p><button class="primary" id="startButton">▶ Start Learning</button></div>
+<div class="hero"><div class="mascot">🦊</div><h1>Hi Yuvan! 👋</h1><p>Let’s become a Division Star together!</p><button class="primary" id="startButton">🚀 Start Yuvan’s Lesson</button></div>
 <div class="grid">
-<button class="tile" id="learnButton"><div class="ico">📚</div><b>Learn</b><span>School method + worked examples</span></button>
-<button class="tile" id="practiceButton"><div class="ico">🎯</div><b>Practice</b><span>Build your skills</span></button>
-<button class="tile" id="quizButton"><div class="ico">⚡</div><b>Quiz</b><span>10 fun questions</span></button>
-<button class="tile" id="progressButton"><div class="ico">🏆</div><b>My Progress</b><span>Stars and badges</span></button>
+<button class="tile" id="learnButton"><div class="ico">📚</div><b>Yuvan’s Lessons</b><span>Learn the school method step by step</span></button>
+<button class="tile" id="practiceButton"><div class="ico">🎯</div><b>Yuvan’s Practice</b><span>Let’s see what you know!</span></button>
+<button class="tile" id="quizButton"><div class="ico">⚡</div><b>Yuvan’s Challenge</b><span>Can you become a Division Star?</span></button>
+<button class="tile" id="progressButton"><div class="ico">🏆</div><b>Yuvan’s Progress</b><span>Stars, practice and badges</span></button>
 </div>
-<div class="card"><b>⭐ Star progress</b><div class="bar"><i id="homeBar"></i></div><p class="small">Answer questions to earn stars.</p></div>
+<div class="card"><b>⭐ Star progress</b><div class="bar"><i id="homeBar"></i></div><p class="small">Yuvan, answer questions to collect stars! ⭐</p></div>
 </section>
 
 <section id="learn" class="screen">
@@ -80,7 +80,7 @@ button{font:inherit;border:0;cursor:pointer}
 <div class="small" id="gameMode"></div><div class="bar"><i id="gameBar"></i></div><div class="eq" id="question"></div><div class="small center" id="gameHint"></div><div class="choices" id="choices"></div><div id="feedback" class="feedback"></div><button class="primary" id="nextQuestion" style="display:none;margin:auto">Next →</button>
 </div></section>
 
-<section id="progress" class="screen"><button class="back" id="progressHome">← Home</button><div class="card center"><h2>🏆 My Progress</h2><div class="stats"><div class="stat"><strong id="progressStars">0</strong><span class="small">Stars</span></div><div class="stat"><strong id="progressCorrect">0</strong><span class="small">Correct</span></div><div class="stat"><strong id="progressBest">0</strong><span class="small">Best Quiz</span></div></div><h3>Badges</h3><div class="badges"><div class="badgebox" id="badge1">🌱<span>First Step</span></div><div class="badgebox" id="badge2">⭐<span>10 Stars</span></div><div class="badgebox" id="badge3">🏅<span>25 Correct</span></div></div></div></section>
+<section id="progress" class="screen"><button class="back" id="progressHome">← Home</button><div class="card center"><h2>🏆 Yuvan’s Progress</h2><div class="stats"><div class="stat"><strong id="progressStars">0</strong><span class="small">Stars</span></div><div class="stat"><strong id="progressCorrect">0</strong><span class="small">Correct</span></div><div class="stat"><strong id="progressBest">0</strong><span class="small">Best Quiz</span></div></div><h3>Badges</h3><div class="badges"><div class="badgebox" id="badge1">🌱<span>First Step</span></div><div class="badgebox" id="badge2">⭐<span>10 Stars</span></div><div class="badgebox" id="badge3">🏅<span>25 Correct</span></div></div></div></section>
 </div>
 
 <script>
@@ -88,8 +88,8 @@ button{font:inherit;border:0;cursor:pointer}
 'use strict';
 
 var KEY='divisionQuestClean';
-var data={stars:0,correct:0,best:0};
-try{var saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved){data.stars=Number(saved.stars)||0;data.correct=Number(saved.correct)||0;data.best=Number(saved.best)||0;}}catch(e){}
+var data={stars:0,correct:0,best:0,name:'Yuvan'};
+try{var saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved){data.stars=Number(saved.stars)||0;data.correct=Number(saved.correct)||0;data.best=Number(saved.best)||0;data.name='Yuvan';}}catch(e){}
 
 var lessons=[
 {title:'🌟 Chapter 1: What is division?',short:'Division means sharing equally.',text:'Division tells us how many equal groups we can make, or how many things go into each group. If 12 pencils are shared equally among 3 children, each child gets 4 pencils. We write 12 ÷ 3 = 4. Division is fair sharing: every group gets the same amount.',type:'share',equation:'12 ÷ 3 = 4',note:'Think: total things ÷ number of groups = things in each group.',answer:4,question:'12 pencils are shared equally among 3 children. How many pencils does each child get?'},
@@ -136,9 +136,9 @@ var currentLesson=0;
 function startLearn(){currentLesson=0;show('learn');renderLesson();}
 function checkLesson(){
 var x=lessons[currentLesson],v=Number($('practiceInput').value),r=$('practiceResult');
-if($('practiceInput').value===''){r.textContent='Type an answer first.';r.className='result bad';return;}
-if(v===x.answer){r.textContent='🎉 Correct! Great thinking.';r.className='result good';data.correct++;data.stars++;save();updateStats();}
-else{r.textContent='💡 Not quite. Look at the example and try again.';r.className='result bad';}
+if($('practiceInput').value===''){r.textContent='Yuvan, type an answer first.';r.className='result bad';return;}
+if(v===x.answer){r.textContent='🎉 Brilliant, Yuvan! Great thinking!';r.className='result good';data.correct++;data.stars++;save();updateStats();}
+else{r.textContent='💡 Almost, Yuvan! Look at the example and try again.';r.className='result bad';}
 }
 function nextLesson(){if(currentLesson<lessons.length-1){currentLesson++;renderLesson();window.scrollTo(0,0);}else{startGame('practice');}}
 function previousLesson(){if(currentLesson>0){currentLesson--;renderLesson();window.scrollTo(0,0);}}
@@ -161,7 +161,7 @@ save();updateStats();$('nextQuestion').style.display='block';$('nextQuestion').t
 }
 function nextGameQuestion(){
 if(questionNo<totalQuestions){newQuestion();return;}
-data.best=Math.max(data.best,quizScore);save();updateStats();$('gameBar').style.width='100%';$('question').textContent='🎉 '+quizScore+' / '+totalQuestions;$('gameHint').textContent=quizScore===totalQuestions?'Perfect! You are a Division Star! ⭐':'Nice work! Keep practising!';$('choices').innerHTML='';$('feedback').className='feedback good';$('feedback').textContent='⭐ Stars have been added to your progress.';$('nextQuestion').textContent='🏠 Back Home';$('nextQuestion').onclick=function(){show('home');$('nextQuestion').onclick=nextGameQuestion;};
+data.best=Math.max(data.best,quizScore);save();updateStats();$('gameBar').style.width='100%';$('question').textContent='🎉 '+quizScore+' / '+totalQuestions;$('gameHint').textContent=quizScore===totalQuestions?'Amazing, Yuvan! You are a Division Star! ⭐🏆':'Nice work, Yuvan! Keep practising! 🌟';$('choices').innerHTML='';$('feedback').className='feedback good';$('feedback').textContent='⭐ Yuvan’s stars have been added to his progress!';$('nextQuestion').textContent='🏠 Back Home';$('nextQuestion').onclick=function(){show('home');$('nextQuestion').onclick=nextGameQuestion;};
 }
 function toggleTheme(){
 document.body.classList.toggle('dark');var dark=document.body.classList.contains('dark');$('themeButton').textContent=dark?'☀️':'🌙';try{localStorage.setItem('divisionTheme',dark?'dark':'light');}catch(e){}
