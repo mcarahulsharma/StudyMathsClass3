@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#7357ff"><title>Division Quest</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--p:#7357ff;--y:#ffd95a;--g:#28c98b;--b:#53b7ff;--ink:#29324d;--muted:#74809a}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#f3f4ff,#fffaf0);font-family:system-ui,sans-serif;color:var(--ink);min-height:100vh}
+button{font:inherit;border:0;cursor:pointer}.app{max-width:760px;margin:auto;padding:14px 16px 30px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.logo{font-weight:950;color:var(--p);font-size:1.3rem}.score{background:#fff;border-radius:99px;padding:8px 14px;font-weight:900;box-shadow:0 4px 15px #0001}
+.screen{display:none}.active{display:block}.hero{background:linear-gradient(145deg,#7357ff,#907bff);color:#fff;border-radius:30px;padding:24px 18px;text-align:center;box-shadow:0 15px 35px #7357ff35}.mascot{font-size:5rem}.hero h1{font-size:clamp(2rem,9vw,3.2rem);margin:6px 0}.hero p{font-weight:650}.primary{background:var(--y);color:#574600;border-radius:18px;padding:14px 22px;font-weight:950;box-shadow:0 5px #d6ae32}.primary:active{transform:translateY(3px);box-shadow:none}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}.tile,.card{background:#fff;border-radius:25px;box-shadow:0 9px 28px #0000000d}.tile{text-align:left;padding:17px;min-height:110px}.tile:active{transform:scale(.98)}.tile .ico{font-size:2.2rem}.tile b{display:block;font-size:1.1rem;margin-top:6px}.tile span,.small,.hint{color:var(--muted);font-size:.86rem;font-weight:650}.card{padding:21px;margin-top:14px}.center{text-align:center}.back{background:#fff;border-radius:15px;padding:10px 15px;font-weight:850;color:#5f6981;margin-bottom:12px}h2{margin:4px 0 10px}
+.art{min-height:180px;background:#f7f5ff;border-radius:20px;margin:15px 0;padding:15px;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px}.item{font-size:2rem}.groups{display:flex;gap:9px;flex-wrap:wrap;justify-content:center}.group{background:#fff;border:3px solid #ddd8ff;border-radius:17px;padding:10px;min-width:80px}.group small{display:block;color:var(--muted);font-weight:800}
+.eq{font-size:clamp(2.3rem,10vw,4rem);font-weight:950;text-align:center;color:var(--p);margin:15px 0}.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.choice{background:#f1efff;color:#5141d0;border-radius:19px;padding:17px;font-size:1.65rem;font-weight:950;box-shadow:0 4px #dcd7ff}.choice:disabled{opacity:.65}.feedback{text-align:center;min-height:45px;padding:12px;font-weight:900}.good{color:#11845e}.try{color:#c64e5b}.bar{height:11px;background:#e7e8f0;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--p),var(--g))}
+.stats{display:flex;justify-content:space-around}.stat strong{display:block;font-size:1.6rem;color:var(--p)}.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.badge{background:#f4f3ff;border-radius:17px;padding:12px;font-size:1.8rem}.badge span{display:block;font-size:.7rem;color:var(--muted);font-weight:800}
+@media(max-width:500px){.grid{gap:9px}.tile{padding:14px}.card{padding:17px}}
+</style></head>
+<body><div class="app">
+<header class="top"><div class="logo">🚀 Division Quest</div><div class="score">⭐ <span id="stars">0</span></div></header>
+
+<section id="home" class="screen active">
+<div class="hero"><div class="mascot">🦊</div><h1>Let's learn division!</h1><p>Small steps. Fun games. Big brain power.</p><button class="primary" onclick="learn()">▶ Start Learning</button></div>
+<div class="grid">
+<button class="tile" onclick="learn()"><div class="ico">📚</div><b>Learn</b><span>Division with pictures</span></button>
+<button class="tile" onclick="game('practice')"><div class="ico">🎯</div><b>Practice</b><span>Build your skills</span></button>
+<button class="tile" onclick="game('quiz')"><div class="ico">⚡</div><b>Quiz</b><span>10 fun questions</span></button>
+<button class="tile" onclick="show('progress')"><div class="ico">🏆</div><b>My Progress</b><span>Stars and badges</span></button>
+</div>
+<div class="card"><b>⭐ Star progress</b><div class="bar"><i id="homeBar"></i></div><p class="small">Answer questions to earn stars.</p></div>
+</section>
+
+<section id="learn" class="screen"><button class="back" onclick="show('home')">← Home</button><div class="card center">
+<div class="small" id="step"></div><h2 id="lt"></h2><p class="hint" id="lx"></p><div class="art" id="art"></div><div class="eq" id="le"></div>
+<button class="primary" id="ln" onclick="nextLesson()">Next →</button></div></section>
+
+<section id="game" class="screen"><button class="back" onclick="show('home')">← Home</button><div class="card">
+<div class="small" id="gm"></div><div class="bar"><i id="gameBar"></i></div><div class="eq" id="question"></div><div class="small center" id="hint"></div>
+<div class="choices" id="choices"></div><div id="feedback" class="feedback"></div><button class="primary" id="next" style="display:none;margin:auto" onclick="nextQ()">Next →</button>
+</div></section>
+
+<section id="progress" class="screen"><button class="back" onclick="show('home')">← Home</button><div class="card center">
+<h2>🏆 My Progress</h2><div class="stats"><div class="stat"><strong id="ps">0</strong><span class="small">Stars</span></div><div class="stat"><strong id="pc">0</strong><span class="small">Correct</span></div><div class="stat"><strong id="pb">0</strong><span class="small">Best Quiz</span></div></div>
+<h3>Badges</h3><div class="badges"><div class="badge" id="b1">🌱<span>First Step</span></div><div class="badge" id="b2">⭐<span>10 Stars</span></div><div class="badge" id="b3">🏅<span>25 Correct</span></div></div></div></section>
+</div>
+<script>
+const KEY='divisionQuestV2',D=JSON.parse(localStorage.getItem(KEY)||'{"stars":0,"correct":0,"best":0}');
+let li=0,mode='',q=0,total=8,score=0,cur;
+const lessons=[
+['👋 What is division?','Division means sharing equally.','share','12 ÷ 3 = 4'],
+['🍎 Make equal groups','12 apples make 3 equal groups of 4.','groups','12 ÷ 3 = 4'],
+['🧠 Division & multiplication','Multiplication and division are best friends!','family','3 × 4 = 12 → 12 ÷ 3 = 4'],
+['🍪 Remainders','Sometimes some things are left over.','rem','14 ÷ 4 = 3 R 2']];
+function save(){localStorage.setItem(KEY,JSON.stringify(D));refresh()}
+function refresh(){stars.textContent=D.stars;ps.textContent=D.stars;pc.textContent=D.correct;pb.textContent=D.best;homeBar.style.width=Math.min(100,D.stars*2)+'%';b1.style.opacity=D.correct?1:.35;b2.style.opacity=D.stars>=10?1:.35;b3.style.opacity=D.correct>=25?1:.35}
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');refresh()}
+function learn(){li=0;show('learn');renderLesson()}
+function renderLesson(){let x=lessons[li];step.textContent='Lesson '+(li+1)+' of '+lessons.length;lt.textContent=x[0];lx.textContent=x[1];le.textContent=x[3];art.innerHTML='';if(x[2]=='share')for(let i=0;i<12;i++)art.innerHTML+='<span class="item">🍎</span>';if(x[2]=='groups')art.innerHTML='<div class="groups">'+[1,2,3].map(n=>'<div class="group">🍎 🍎 🍎 🍎<small>Group '+n+'</small></div>').join('')+'</div>';if(x[2]=='family')art.innerHTML='<b style="font-size:2rem">3 groups × 4 = 12</b>';if(x[2]=='rem')art.innerHTML='<div class="groups">'+[1,2,3].map(n=>'<div class="group">🍪 🍪 🍪<small>3 each</small></div>').join('')+'<div class="group" style="border-color:#ffd95a">🍪 🍪<small>left over</small></div></div>';ln.textContent=li<3?'Next →':'🎯 Try Practice'}
+function nextLesson(){if(li<3){li++;renderLesson()}else game('practice')}
+function game(m){mode=m;q=0;score=0;total=m==='quiz'?10:8;show('game');newQ()}
+function newQ(){q++;gm.textContent=(mode==='quiz'?'⚡ Quick Quiz':'🎯 Practice')+' • '+q+' / '+total;gameBar.style.width=((q-1)/total*100)+'%';feedback.textContent='';next.style.display='none';let d=Math.floor(Math.random()*8)+2,a=Math.floor(Math.random()*9)+1,r=0,n=d*a;if(mode==='quiz'&&Math.random()<.35){r=Math.floor(Math.random()*d)||1;n+=r}cur={n,d,a,r};question.textContent=n+' ÷ '+d+' = ?';hint.textContent=r?'Hint: some may be left over.':'Hint: think of a multiplication fact!';let s=new Set([a]);while(s.size<4){let z=Math.max(0,a+Math.floor(Math.random()*7)-3);if(z!==a)s.add(z)}choices.innerHTML='';[...s].sort(()=>Math.random()-.5).forEach(z=>{let b=document.createElement('button');b.className='choice';b.textContent=z;b.onclick=()=>answer(z);choices.appendChild(b)})}
+function answer(z){document.querySelectorAll('.choice').forEach(b=>b.disabled=true);let ok=z===cur.a;score+=ok?1:0;if(ok){D.correct++;D.stars+=cur.r?2:1;feedback.className='feedback good';feedback.textContent=cur.r?'🌟 Fantastic!':'🎉 Great job!'}else{feedback.className='feedback try';feedback.textContent='💡 The answer is '+cur.a+(cur.r?' R '+cur.r:'')+'. Keep going!'}save();next.style.display='block';next.textContent=q<total?'Next →':'See Result'}
+function nextQ(){if(q<total){newQ();return}D.best=Math.max(D.best,score);save();gameBar.style.width='100%';question.textContent='🎉 '+score+' / '+total;hint.textContent=score===total?'Perfect! You are a Division Star! ⭐':'Nice work! Keep practicing!';choices.innerHTML='';feedback.className='feedback good';feedback.textContent='⭐ You earned stars this round!';next.textContent='🏠 Back Home';next.onclick=()=>show('home')}
+refresh();
+</script></body></html>
