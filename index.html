@@ -64,7 +64,9 @@ body.dark .longdiv{background:#252941;border-color:#55507d}
 <h3>Badges</h3><div class="badges"><div class="badge" id="b1">🌱<span>First Step</span></div><div class="badge" id="b2">⭐<span>10 Stars</span></div><div class="badge" id="b3">🏅<span>25 Correct</span></div></div></div></section>
 </div>
 <script>
-const KEY='divisionQuestV2',D=JSON.parse(localStorage.getItem(KEY)||'{"stars":0,"correct":0,"best":0}');
+const KEY='divisionQuestV2';
+let D={stars:0,correct:0,best:0};
+try{const saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved&&typeof saved==='object'){D.stars=Number(saved.stars)||0;D.correct=Number(saved.correct)||0;D.best=Number(saved.best)||0}}catch(e){localStorage.removeItem(KEY)}
 let li=0,mode='',q=0,total=8,score=0,cur;
 const miniAnswers=[4,4,4,4,6,4,2,4];
 const lessons=[
@@ -81,9 +83,18 @@ const lessons=[
 ];
 
 function save(){localStorage.setItem(KEY,JSON.stringify(D));refresh()}
-function toggleTheme(){document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');localStorage.setItem('divisionTheme',dark?'dark':'light');themeBtn.textContent=dark?'☀️':'🌙';document.querySelector('meta[name="theme-color"]').setAttribute('content',dark?'#111426':'#7357ff')}
-function loadTheme(){const dark=localStorage.getItem('divisionTheme')==='dark';if(dark)document.body.classList.add('dark');themeBtn.textContent=dark?'☀️':'🌙';document.querySelector('meta[name="theme-color"]').setAttribute('content',dark?'#111426':'#7357ff')}
-function refresh(){stars.textContent=D.stars;ps.textContent=D.stars;pc.textContent=D.correct;pb.textContent=D.best;homeBar.style.width=Math.min(100,D.stars*2)+'%';b1.style.opacity=D.correct?1:.35;b2.style.opacity=D.stars>=10?1:.35;b3.style.opacity=D.correct>=25?1:.35}
+function toggleTheme(){document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');localStorage.setItem('divisionTheme',dark?'dark':'light');document.getElementById('themeBtn').textContent=dark?'☀️':'🌙';document.querySelector('meta[name="theme-color"]').setAttribute('content',dark?'#111426':'#7357ff')}
+function loadTheme(){const dark=localStorage.getItem('divisionTheme')==='dark';if(dark)document.body.classList.add('dark');document.getElementById('themeBtn').textContent=dark?'☀️':'🌙';document.querySelector('meta[name="theme-color"]').setAttribute('content',dark?'#111426':'#7357ff')}
+function refresh(){
+document.getElementById('stars').textContent=D.stars;
+document.getElementById('ps').textContent=D.stars;
+document.getElementById('pc').textContent=D.correct;
+document.getElementById('pb').textContent=D.best;
+document.getElementById('homeBar').style.width=Math.min(100,D.stars*2)+'%';
+document.getElementById('b1').style.opacity=D.correct?1:.35;
+document.getElementById('b2').style.opacity=D.stars>=10?1:.35;
+document.getElementById('b3').style.opacity=D.correct>=25?1:.35;
+}
 function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');refresh()}
 function learn(){li=0;show('learn');renderLesson()}
 function renderLesson(){let x=lessons[li];step.textContent='Chapter '+(li+1)+' of '+lessons.length;lt.textContent=x.title;lx.textContent=x.short;explain.textContent=x.text;le.textContent=x.eq;chapterNote.textContent='💡 '+x.note;art.innerHTML='';prev.disabled=li===0;prev.style.opacity=li===0?.45:1;
@@ -107,5 +118,5 @@ function game(m){mode=m;q=0;score=0;total=m==='quiz'?10:8;show('game');newQ()}
 function newQ(){q++;gm.textContent=(mode==='quiz'?'⚡ Quick Quiz':'🎯 Practice')+' • '+q+' / '+total;gameBar.style.width=((q-1)/total*100)+'%';feedback.textContent='';next.style.display='none';let d=Math.floor(Math.random()*8)+2,a=Math.floor(Math.random()*9)+1,r=0,n=d*a;if(mode==='quiz'&&Math.random()<.35){r=Math.floor(Math.random()*d)||1;n+=r}cur={n,d,a,r};question.textContent=n+' ÷ '+d+' = ?';hint.textContent=r?'Hint: some may be left over.':'Hint: think of a multiplication fact!';let s=new Set([a]);while(s.size<4){let z=Math.max(0,a+Math.floor(Math.random()*7)-3);if(z!==a)s.add(z)}choices.innerHTML='';[...s].sort(()=>Math.random()-.5).forEach(z=>{let b=document.createElement('button');b.className='choice';b.textContent=z;b.onclick=()=>answer(z);choices.appendChild(b)})}
 function answer(z){document.querySelectorAll('.choice').forEach(b=>b.disabled=true);let ok=z===cur.a;score+=ok?1:0;if(ok){D.correct++;D.stars+=cur.r?2:1;feedback.className='feedback good';feedback.textContent=cur.r?'🌟 Fantastic!':'🎉 Great job!'}else{feedback.className='feedback try';feedback.textContent='💡 The answer is '+cur.a+(cur.r?' R '+cur.r:'')+'. Keep going!'}save();next.style.display='block';next.textContent=q<total?'Next →':'See Result'}
 function nextQ(){if(q<total){newQ();return}D.best=Math.max(D.best,score);save();gameBar.style.width='100%';question.textContent='🎉 '+score+' / '+total;hint.textContent=score===total?'Perfect! You are a Division Star! ⭐':'Nice work! Keep practicing!';choices.innerHTML='';feedback.className='feedback good';feedback.textContent='⭐ You earned stars this round!';next.textContent='🏠 Back Home';next.onclick=()=>show('home')}
-loadTheme();refresh();
+try{loadTheme();refresh()}catch(e){document.body.innerHTML='<div style="font-family:system-ui;padding:30px;text-align:center"><h2>🚀 Division Quest</h2><p>Please refresh the page to start the app.</p></div>';console.error(e)}
 </script></body></html>
