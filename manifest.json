@@ -1,1 +1,23 @@
-{"name":"Division Quest","short_name":"Division Quest","start_url":".","display":"standalone","background_color":"#f3f4ff","theme_color":"#7357ff"}
+{
+  "name": "Division Quest",
+  "short_name": "Division Quest",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f3f4ff",
+  "theme_color": "#7357ff",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "description": "A fun Grade 3 division learning app with lessons, listening, visual examples, practice and quizzes.",
+  "lang": "en-IN",
+  "categories": [
+    "education",
+    "kids",
+    "math"
+  ]
+}
